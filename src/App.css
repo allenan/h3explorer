@@ -1,4 +1,17 @@
+html
+{
+  height: 100vh;
+}
+
+body,
+#root
+{
+  height: 100%;
+}
+
 .App {
+  padding-top: 40px;
+  height: calc(100vh - 40px)
 }
 
 .App-logo {
@@ -6,7 +19,7 @@
   height: 80px;
 }
 
-.App-header {
+.Header {
   background-color: #222;
   height: 40px;
   position: fixed;
@@ -16,6 +29,9 @@
   color: white;
   padding: 0 100px;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .App-title {
@@ -25,11 +41,52 @@
   line-height: 40px;
 }
 
-.App-intro {
-  font-size: large;
+.Menu
+{
+  position: fixed;
+  right: -400px;
+  top: 40px;
+  width: 300px;
+  height: calc(100vh - 80px);
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 100;
+  padding: 20px;
+  transition: right 0.1s ease-in-out;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.Menu-open
+{
+  right: 0;
+}
+
+.Menu-indexControl
+{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  height: 200px;
+  resize: none;
+}
+
+.Menu-label
+{
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.Header-btn
+{
+  border: none;
+  background: none;
+  color: white;
+}
+
+.Header-btn:hover
+{
+  cursor: pointer;
+}
+
+.Header-btn:focus
+{
+  outline: none;
 }
