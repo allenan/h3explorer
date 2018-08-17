@@ -7,7 +7,7 @@ class Hex extends Component {
 
   handleClick = hexagon => {
     const { address, onClick } = this.props
-    onClick(Object.assign({}, hexagon, { address }))
+    onClick && onClick(Object.assign({}, hexagon, { address }))
   }
 
   render() {
@@ -30,7 +30,7 @@ class Hex extends Component {
         <Feature
           className="Hexagon"
           coordinates={[coordinates]}
-          properties={{class: 'hexagon'}}
+          properties={{class: this.props.mapClass || 'hexagon'}}
           onClick={this.handleClick}
           onMouseEnter={onHover}
           onMouseLeave={onHoverOff}

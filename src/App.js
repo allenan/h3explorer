@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header'
 import Map from './Map'
 import Menu from './Menu'
+import uniq from 'lodash/uniq'
 
 class App extends Component {
   state = {
@@ -10,7 +11,7 @@ class App extends Component {
   }
 
   handleIndexesChange = indexes  => {
-    this.setState({ indexes })
+    this.setState({ indexes: uniq(indexes) })
   }
 
   handleToggleMenuOpen = () => {
@@ -23,7 +24,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header onMenuClick={this.handleToggleMenuOpen} />
-        <Map indexes={indexes} />
+        <Map indexes={indexes} onIndexesChange={this.handleIndexesChange} />
         <Menu open={menuOpen} onIndexesChange={this.handleIndexesChange} />
       </div>
     );
