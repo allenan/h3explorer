@@ -95,3 +95,12 @@ body,
 {
   cursor: pointer;
 }
+
+.Inspector
+{
+  background: #0000004f;
+  position: absolute;
+  padding: 7px 14px;
+  color: white;
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+}

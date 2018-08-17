@@ -20,6 +20,7 @@ class Hex extends Component {
     }
 
     const coordinates = h3.h3ToGeoBoundary(address).map(c => reverse(c))
+    const resolution = h3.h3GetResolution(address)
 
     return (
       <Layer
@@ -30,7 +31,12 @@ class Hex extends Component {
         <Feature
           className="Hexagon"
           coordinates={[coordinates]}
-          properties={{class: this.props.mapClass || 'hexagon'}}
+          properties={{
+            class: this.props.mapClass || 'hexagon',
+            type: 'hexagon',
+            address,
+            resolution
+          }}
           onClick={this.handleClick}
           onMouseEnter={onHover}
           onMouseLeave={onHoverOff}

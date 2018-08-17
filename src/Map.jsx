@@ -6,6 +6,8 @@ import round from 'lodash/round'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import some from 'lodash/some'
+import filter from 'lodash/filter'
+import Inspector from './Inspector'
 
 const MapBase = ReactMapboxGl({
   accessToken: "pk.eyJ1IjoiYWxsZW5hbiIsImEiOiJjamt0NWUxYnYwMXo0M3ZtbXc3ZHhsOTQ0In0.CpVrcaF8572K66VcvmNYDQ"
@@ -29,7 +31,8 @@ class Map extends Component {
     resolution: 7,
     hexagons: [],
     hexagon: null,
-    hoverHexagon: null
+    hoverHexagon: null,
+    hoverFeatures: []
   }
 
   handleZoomEnd = e => {
@@ -45,7 +48,6 @@ class Map extends Component {
   }
 
   fetchHexagons = debounce(() => {
-    console.log("fetch hexagons")
     const { map, resolution } = this.state
     if (map) {
       const bounds = this.state.map.getBounds()
@@ -83,12 +85,14 @@ class Map extends Component {
   )
 
   handleMapHover = throttle((map, e) => {
+    const hoverFeatures = filter(map.queryRenderedFeatures(e.point), {properties: {type: 'hexagon'}})
+    console.log(hoverFeatures)
     const hoverHexagon = {address: this.getH3Address(e.lngLat)}
-    this.setState({ hoverHexagon })
+    this.setState({ hoverHexagon, hoverFeatures })
   }, 100)
 
   render() {
-    const { hexagons, hexagon, hoverHexagon } = this.state
+    const { hexagons, hexagon, hoverHexagon, hoverFeatures } = this.state
     const { indexes } = this.props
 
     return (
@@ -116,15 +120,11 @@ class Map extends Component {
             onHoverOff={this.handleHexagonHoverOff}
           />
         ))}
-        {/* {hexagon &&
-          <Popup key={hexagon.address} coordinates={hexagon.lngLat}>
-            <div>
-              {hexagon.address}
-            </div>
-          </Popup>
-        } */}
         {hoverHexagon &&
           <Hex address={hoverHexagon.address} color="#999999" mapClass="hover-hexagon" onClick={this.handleHoverHexagonClick} />
+        }
+        {hoverFeatures.length > 0 &&
+          <Inspector features={hoverFeatures} />
         }
         <ZoomControl />
         <RotationControl />
