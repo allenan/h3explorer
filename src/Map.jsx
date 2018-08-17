@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { ZoomControl, ScaleControl, RotationControl } from "react-mapbox-gl";
+import ReactMapboxGl, { ZoomControl, ScaleControl, RotationControl, Popup } from "react-mapbox-gl";
 import Hex from './Hex'
 import h3 from 'h3-js'
 import round from 'lodash/round'
 import debounce from 'lodash/debounce'
+import some from 'lodash/some'
 
 const MapBase = ReactMapboxGl({
   accessToken: "pk.eyJ1IjoiYWxsZW5hbiIsImEiOiJjamt0NWUxYnYwMXo0M3ZtbXc3ZHhsOTQ0In0.CpVrcaF8572K66VcvmNYDQ"
@@ -25,7 +26,8 @@ class Map extends Component {
     zoom: [12],
     center: [-122.4194, 37.7749],
     resolution: 8,
-    hexagons: []
+    hexagons: [],
+    hexagon: null
   }
 
   handleZoomEnd = e => {
@@ -50,27 +52,65 @@ class Map extends Component {
     }
   }, 1000, { leading: true, trailing: false })
 
+  hexagonClick = hexagon => {
+    console.log(hexagon)
+    this.setState({ hexagon })
+  }
+
+  handleHexagonHover = () => {
+    const { map } = this.state
+    map.getCanvas().style.cursor = 'pointer'
+  }
+
+  handleHexagonHoverOff = () => {
+    const { map } = this.state
+    map.getCanvas().style.cursor = ''
+  }
+
+  handleMapClick = (map, e) => {
+    const features = map.queryRenderedFeatures(e.point)
+    if (!some(features, {properties: {class: 'hexagon'}})) {
+      this.setState({hexagon: null})
+    }
+  }
+
   render() {
-    const { hexagons } = this.state
+    const { hexagons, hexagon } = this.state
     const { indexes } = this.props
 
     return (
       <MapBase
-      style="mapbox://styles/mapbox/light-v9"
-      center={this.state.center}
-      onStyleLoad={(map) => {this.setState({map}, this.handleReposition)}}
-      onZoomEnd={this.handleZoomEnd}
-      onDragEnd={this.handleDragEnd}
-      containerStyle={{
-        height: "calc(100vh - 40px)",
-        width: "100vw"
-      }}>
-        <Hex address="87283472bffffff" />
+        style="mapbox://styles/mapbox/light-v9"
+        center={this.state.center}
+        onStyleLoad={(map) => {this.setState({map}, this.handleReposition)}}
+        onZoomEnd={this.handleZoomEnd}
+        onDragEnd={this.handleDragEnd}
+        onClick={this.handleMapClick}
+        containerStyle={{
+          height: "calc(100vh - 40px)",
+          width: "100vw"
+        }}
+      >
         {hexagons.map(address => <Hex key={address} address={address} />)}
-        {indexes.map(address => <Hex key={address} address={address} color="#ff0000" />)}
+        {indexes.map(address => (
+          <Hex
+            key={address}
+            address={address}
+            color="#ff0000"
+            onClick={this.hexagonClick}
+            onHover={this.handleHexagonHover}
+            onHoverOff={this.handleHexagonHoverOff}
+          />
+        ))}
+        {hexagon &&
+          <Popup key={hexagon.address} coordinates={hexagon.lngLat}>
+            <div>
+              {hexagon.address}
+            </div>
+          </Popup>
+        }
         <ZoomControl />
         <RotationControl />
-        <ScaleControl />
       </MapBase>
     )
   }

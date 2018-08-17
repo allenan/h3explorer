@@ -90,3 +90,8 @@ body,
 {
   outline: none;
 }
+
+.Hexagon:hover
+{
+  cursor: pointer;
+}

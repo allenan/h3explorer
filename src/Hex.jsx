@@ -4,8 +4,14 @@ import h3 from 'h3-js'
 import reverse from 'lodash/reverse'
 
 class Hex extends Component {
+
+  handleClick = hexagon => {
+    const { address, onClick } = this.props
+    onClick(Object.assign({}, hexagon, { address }))
+  }
+
   render() {
-    const { address, color } = this.props
+    const { address, color, onHover, onHoverOff} = this.props
 
     const paint = {
       'fill-color': color || '#eeeeee',
@@ -21,7 +27,14 @@ class Hex extends Component {
         paint={paint}
         before="waterway-label"
       >
-        <Feature coordinates={[coordinates]} />
+        <Feature
+          className="Hexagon"
+          coordinates={[coordinates]}
+          properties={{class: 'hexagon'}}
+          onClick={this.handleClick}
+          onMouseEnter={onHover}
+          onMouseLeave={onHoverOff}
+        />
       </Layer>
     )
   }
