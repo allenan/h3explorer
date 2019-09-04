@@ -10,12 +10,12 @@ class App extends Component {
     menuOpen: false
   }
 
-  handleIndexesChange = indexes  => {
+  handleIndexesChange = indexes => {
     this.setState({ indexes: uniq(indexes) })
   }
 
   handleToggleMenuOpen = () => {
-    this.setState({ menuOpen: !this.state.menuOpen})
+    this.setState({ menuOpen: !this.state.menuOpen })
   }
 
   render() {

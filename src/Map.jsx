@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { ZoomControl, ScaleControl, RotationControl, Popup } from "react-mapbox-gl";
+import ReactMapboxGl, { ZoomControl,RotationControl} from "react-mapbox-gl";
 import Hex from './Hex'
-import h3 from 'h3-js'
+import {polyfill,geoToH3,} from 'h3-js'
 import round from 'lodash/round'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
@@ -20,7 +20,7 @@ const getPolyfill = (bounds, resolution) => {
     [bounds._sw.lat, bounds._ne.lng],
     [bounds._sw.lat, bounds._sw.lng],
   ];
-  return h3.polyfill(polygon, resolution)
+  return polyfill(polygon, resolution)
 }
 
 class Map extends Component {
@@ -81,7 +81,7 @@ class Map extends Component {
   }
 
   getH3Address = lngLat => (
-    h3.geoToH3(lngLat.lat, lngLat.lng, this.state.resolution)
+    geoToH3(lngLat.lat, lngLat.lng, this.state.resolution)
   )
 
   handleMapHover = throttle((map, e) => {

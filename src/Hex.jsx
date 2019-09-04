@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Layer, Feature } from 'react-mapbox-gl'
-import h3 from 'h3-js'
+import { h3ToGeoBoundary, h3GetResolution } from 'h3-js'
 import reverse from 'lodash/reverse'
 
 class Hex extends Component {
@@ -11,7 +11,7 @@ class Hex extends Component {
   }
 
   render() {
-    const { address, color, onHover, onHoverOff} = this.props
+    const { address, color, onHover, onHoverOff } = this.props
 
     const paint = {
       'fill-color': color || '#eeeeee',
@@ -19,8 +19,8 @@ class Hex extends Component {
       'fill-outline-color': '#000000',
     }
 
-    const coordinates = h3.h3ToGeoBoundary(address).map(c => reverse(c))
-    const resolution = h3.h3GetResolution(address)
+    const coordinates = h3ToGeoBoundary(address).map(c => reverse(c))
+    const resolution = h3GetResolution(address)
 
     return (
       <Layer
