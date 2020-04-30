@@ -15,8 +15,8 @@ class Hex extends Component {
 
     const paint = {
       'fill-color': color || '#eeeeee',
-      'fill-opacity': 0.1,
-      'fill-outline-color': '#000000',
+      'fill-opacity': 0.3,
+      'fill-outline-color': color || '#000000',
     }
 
     const coordinates = h3ToGeoBoundary(address).map(c => reverse(c))
@@ -42,6 +42,7 @@ class Hex extends Component {
           onMouseLeave={onHoverOff}
         />
       </Layer>
+      
     )
   }
 }
