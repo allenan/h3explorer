@@ -4,21 +4,28 @@
   "private": true,
   "homepage": "http://h3explorer.com/",
   "dependencies": {
+    "antd": "^4.1.5",
+    "axios": "^0.19.2",
+    "env-cmd": "^10.1.0",
     "h3-js": "^3.1.0",
     "lodash": "^4.17.10",
     "mapbox-gl": "^0.47.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-mapbox-gl": "^3.8.0",
-    "react-scripts": "1.1.4"
+    "react-redux": "^7.2.0",
+    "react-scripts": "1.1.4",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "predeploy": "yarn run build",
-    "deploy": "gh-pages -d build"
+    "development": "env-cmd -f .env.development npm run build",
+    "production": "env-cmd -f .env.production npm run build",
+    "kissht-local": "npm run build:test"
   },
   "devDependencies": {
     "gh-pages": "^1.2.0"

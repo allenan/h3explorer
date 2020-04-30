@@ -38,8 +38,3 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Contributing
-Feedback, feature requests, and fixes are welcomed and encouraged. Please make appropriate use of [Issues](https://github.com/allenan/h3explorer/issues) and [Pull Requests](https://github.com/allenan/h3explorer/pulls).
-
-## License
-MIT Copyright (c) 2018 Andrew Allen. See [LICENSE](https://github.com/allenan/h3explorer/blob/master/LICENSE) for details.
